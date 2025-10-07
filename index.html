@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Pradeep Diguvidi Narayanappa • Personal Website</title>
+    <meta name="description" content="Portfolio of Pradeep Diguvidi Narayanappa — software engineer specializing in full‑stack development, web UI, and data-driven systems." />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/styles.css" as="style" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script defer src="/script.js"></script>
+  </head>
+  <body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <!-- Dynamic Background Shapes -->
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    
+    <header class="site-header">
+      <a href="#home" class="logo">Pradeep D N</a>
+      <nav class="site-nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">☰</button>
+        <ul id="nav-menu" class="nav-menu">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero" aria-label="Hero">
+        <div class="hero-content">
+          <h1>Hi, I'm Pradeep Diguvidi Narayanappa.</h1>
+          <p class="subtitle">Full‑stack engineer crafting reliable systems and usable, accessible interfaces.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn" href="#contact">Get in Touch</a>
+          </div>
+        </div>
+        <div class="hero-aside">
+          <img src="./assets/photo.jpg?v=1" alt="Portrait of Pradeep" loading="lazy" style="width: 100%; height: auto; display: block; object-fit: cover;" />
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <h2>About</h2>
+        <p>
+          Software engineer with 4+ years of experience building production web apps and services.
+          I enjoy designing robust backends and intuitive frontends, and I emphasize code quality,
+          accessibility, and measurable impact.
+        </p>
+        <ul class="pill-list" aria-label="Skills">
+          <li>Java</li>
+          <li>Python</li>
+          <li>JavaScript/TypeScript</li>
+          <li>React</li>
+          <li>Angular</li>
+          <li>Spring Boot</li>
+          <li>Django/Flask/FastAPI</li>
+          <li>SQL (MySQL, PostgreSQL)</li>
+          <li>NoSQL (MongoDB, DynamoDB)</li>
+          <li>Docker & Kubernetes</li>
+        </ul>
+      </section>
+
+      <section id="education" class="section">
+        <h2>Education</h2>
+        <div class="card">
+          <h3>San Jose State University — M.S. Computer Engineering</h3>
+          <div class="meta">San Jose, CA • Aug 2023 – Dec 2025</div>
+          <p>Coursework: Web UI Design, Operating Systems, Computer Architecture, Data Mining, Software Quality Assurance, Algorithms & Data Structures, System Software, Software Security Techniques.</p>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <h2>Projects</h2>
+        <div class="grid projects-grid">
+          <article class="card">
+            <h3>Edu-Genius</h3>
+            <p>Full‑stack AI‑powered educational platform built with MERN stack. Features intelligent tutoring via GPT‑4o‑mini integration, user management with JWT authentication, and persistent chat system with MongoDB. Includes rate limiting, CORS protection, and responsive React frontend with Material‑UI.</p>
+            <div class="card-actions">
+              <a href="https://github.com/dst2609/edu-genius" class="btn small" rel="noopener" target="_blank">Code</a>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Traffic Accident Prediction System</h3>
+            <p>Analyzed urban collision patterns using ML to achieve AUC‑ROC 0.9939 and 96.83% accuracy. Built with Python and data mining techniques.</p>
+            <div class="card-actions">
+              <a href="#" class="btn small" rel="noopener" target="_blank">Live</a>
+              <a href="#" class="btn small" rel="noopener" target="_blank">Code</a>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Android Malware Detection</h3>
+            <p>Machine‑learning based behavioral analysis pipeline (Random Forests) detecting malware with 81% accuracy. Focus on cybersecurity and model evaluation.</p>
+            <div class="card-actions">
+              <a href="#" class="btn small" rel="noopener" target="_blank">Live</a>
+              <a href="#" class="btn small" rel="noopener" target="_blank">Code</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <h2>Experience</h2>
+        <ul class="timeline">
+          <li>
+            <div class="timeline-item">
+              <h3>Software Engineer • Tata Consultancy Services (TCS)</h3>
+              <div class="meta">Bengaluru, India • Aug 2019 – Jun 2023</div>
+              <p>
+                Built full‑stack platforms with React/Angular and Spring Boot. Improved online sales by 30%,
+                sped up database operations by 30% with optimized SQL and schema design, and led TDD efforts to 95% test coverage 
+                reducing production bugs by 90%. Designed HIPAA‑compliant healthcare systems with Spring Cloud Dataflow.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="contact" class="section">
+        <h2>Contact</h2>
+        <p>Open to opportunities and collaborations. Reach out:</p>
+        <ul class="contact-list">
+          <li><a href="mailto:diguvidi.pradeep@gmail.com">Email</a></li>
+          <li><a href="tel:+16693216111">Phone</a></li>
+          <li><a href="https://www.linkedin.com/in/pradeepdiguvidi/" rel="noopener" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/pradeepdn" rel="noopener" target="_blank">GitHub</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Pradeep Diguvidi Narayanappa. All rights reserved.</p>
+    </footer>
+  </body>
+  </html>
+
+
