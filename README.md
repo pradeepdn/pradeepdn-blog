@@ -1,6 +1,7 @@
 # Personal Website
 
 A clean, responsive single-page personal website with sections for Hero, About, Projects, Experience, and Contact. Includes dark mode, smooth scrolling, and mobile navigation.
+(https://pradeepdn.github.io/pradeepdn-blog/)
 
 ## Run locally
 Open `index.html` in a browser, or serve the folder:
