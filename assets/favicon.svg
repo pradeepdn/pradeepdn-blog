@@ -1,12 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Computer monitor -->
-  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-  <!-- Screen -->
-  <line x1="8" y1="21" x2="16" y2="21"/>
-  <!-- Base -->
-  <line x1="12" y1="17" x2="12" y2="21"/>
-  <!-- Screen content -->
-  <rect x="4" y="5" width="16" height="10" rx="1" ry="1" fill="currentColor" opacity="0.3"/>
-  <!-- Power indicator -->
-  <circle cx="18" cy="6" r="1" fill="#22c55e"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#50E3C2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="32" fill="url(#grad)" />
+  <text x="50%" y="55%" text-anchor="middle" font-size="28" font-family="Arial, sans-serif" fill="#fff" font-weight="bold">PD</text>
 </svg>
