@@ -27,28 +27,60 @@ const themeToggle = document.getElementById('theme-toggle');
 const root = document.documentElement;
 const THEME_KEY = 'theme-preference';
 
+function getSystemTheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 function getPreferredTheme() {
   const stored = localStorage.getItem(THEME_KEY);
   if (stored === 'light' || stored === 'dark') return stored;
-  return 'dark';
+  // If no preference stored, follow system theme
+  return getSystemTheme();
 }
 
 function applyTheme(theme) {
   root.setAttribute('data-theme', theme);
+  if (themeToggle) {
+    const isFollowingSystem = !localStorage.getItem(THEME_KEY);
+    themeToggle.textContent = theme === 'dark' ? '🌞' : '🌙';
+    themeToggle.title = isFollowingSystem ? 
+      `Currently following system theme (${theme}). Click to override.` : 
+      `Theme set to ${theme}. Click to toggle.`;
+  }
 }
 
 function toggleTheme() {
-  const current = root.getAttribute('data-theme') || 'dark';
+  const current = root.getAttribute('data-theme') || getSystemTheme();
   const next = current === 'dark' ? 'light' : 'dark';
   localStorage.setItem(THEME_KEY, next);
   applyTheme(next);
-  if (themeToggle) themeToggle.textContent = next === 'dark' ? '🌞' : '🌙';
 }
 
+function resetToSystemTheme() {
+  localStorage.removeItem(THEME_KEY);
+  applyTheme(getSystemTheme());
+}
+
+// Listen for system theme changes
+const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+function handleSystemThemeChange(e) {
+  // Only follow system theme if user hasn't set a manual preference
+  if (!localStorage.getItem(THEME_KEY)) {
+    applyTheme(e.matches ? 'dark' : 'light');
+  }
+}
+
+// Use addEventListener for modern browsers, fallback to addListener for older ones
+if (mediaQuery.addEventListener) {
+  mediaQuery.addEventListener('change', handleSystemThemeChange);
+} else {
+  mediaQuery.addListener(handleSystemThemeChange);
+}
+
+// Initialize theme
 applyTheme(getPreferredTheme());
 if (themeToggle) {
   themeToggle.addEventListener('click', toggleTheme);
-  themeToggle.textContent = (root.getAttribute('data-theme') === 'dark') ? '🌞' : '🌙';
 }
 
 // Footer year
