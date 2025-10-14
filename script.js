@@ -64,6 +64,28 @@ if (themeToggle) {
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+// Scroll animation for cards
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, index * 100); // Stagger animation
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Observe all cards
+document.querySelectorAll('.card').forEach(card => {
+  observer.observe(card);
+});
+
 // Flowing gradient background with particles
 const canvas = document.getElementById('bg-canvas');
 if (canvas instanceof HTMLCanvasElement) {
@@ -72,7 +94,16 @@ if (canvas instanceof HTMLCanvasElement) {
   let width = 0, height = 0;
   let time = 0;
   let particles = [];
-  const PARTICLE_COUNT = 150;
+
+  // Adjust particle count based on device
+  function getParticleCount() {
+    const isMobile = window.innerWidth < 768;
+    const isLowPower = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    if (isMobile || isLowPower) return 50;
+    return window.innerWidth < 1024 ? 80 : 150;
+  }
+
+  let PARTICLE_COUNT = getParticleCount();
 
   function themeColors() {
     const isDark = (document.documentElement.getAttribute('data-theme') === 'dark') ||
@@ -102,7 +133,10 @@ if (canvas instanceof HTMLCanvasElement) {
     canvas.width = Math.floor(width * DPR);
     canvas.height = Math.floor(height * DPR);
     if (ctx) ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    
+
+    // Update particle count on resize
+    PARTICLE_COUNT = getParticleCount();
+
     // Reinitialize particles on resize
     initParticles();
   }
@@ -246,13 +280,44 @@ if (canvas instanceof HTMLCanvasElement) {
     });
   }
 
+  let animationId = null;
+  let isAnimating = false;
+
   function animate() {
+    if (!isAnimating) return;
     time += 16; // ~60fps
     ctx.clearRect(0, 0, width, height);
     drawFlowingGradient();
     updateParticles();
     drawParticles();
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
   }
-  animate();
+
+  function startAnimation() {
+    if (!isAnimating) {
+      isAnimating = true;
+      animate();
+    }
+  }
+
+  function stopAnimation() {
+    isAnimating = false;
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+  }
+
+  // Lazy load: Only start animation when canvas is in viewport
+  const canvasObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startAnimation();
+      } else {
+        stopAnimation();
+      }
+    });
+  }, { threshold: 0 });
+
+  canvasObserver.observe(canvas);
 }

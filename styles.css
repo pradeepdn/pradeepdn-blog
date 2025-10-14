@@ -161,6 +161,18 @@ body::before {
   }
 }
 
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .floating-shape:nth-child(2),
 .floating-shape:nth-child(4) {
   animation: float 20s infinite linear, pulse 4s infinite ease-in-out;
@@ -234,7 +246,20 @@ main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
 .grid { display: grid; gap: 16px; }
 .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-.card { border: 1px solid var(--border); background: var(--card); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+.card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .card h3 { margin-top: 0; }
 .card-actions { display: flex; gap: 10px; }
 
@@ -445,13 +470,25 @@ main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
   }
   
   /* Button improvements */
-  .btn { 
-    padding: 8px 12px; 
+  .btn {
+    padding: 8px 12px;
     font-size: 13px;
   }
-  .btn.small { 
-    padding: 6px 10px; 
+  .btn.small {
+    padding: 6px 10px;
     font-size: 12px;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .floating-shape {
+    animation: none;
   }
 }
 
