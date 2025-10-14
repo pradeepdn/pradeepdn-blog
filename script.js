@@ -1,4 +1,3 @@
-// Mobile nav toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 if (navToggle && navMenu) {
@@ -8,8 +7,6 @@ if (navToggle && navMenu) {
     navMenu.setAttribute('aria-expanded', String(!expanded));
   });
 }
-
-// Smooth scroll for in-page links
 document.addEventListener('click', (e) => {
   const target = e.target;
   if (target instanceof HTMLElement && target.tagName === 'A' && target.getAttribute('href')?.startsWith('#')) {
@@ -26,29 +23,23 @@ document.addEventListener('click', (e) => {
     }
   }
 });
-
-// Dark mode toggle with persistence
 const themeToggle = document.getElementById('theme-toggle');
 const root = document.documentElement;
 const THEME_KEY = 'theme-preference';
 
 function getPreferredTheme() {
   const stored = localStorage.getItem(THEME_KEY);
-  if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored;
-  return 'auto';
+  if (stored === 'light' || stored === 'dark') return stored;
+  return 'dark';
 }
 
 function applyTheme(theme) {
-  if (theme === 'auto') {
-    root.setAttribute('data-theme', 'auto');
-  } else {
-    root.setAttribute('data-theme', theme);
-  }
+  root.setAttribute('data-theme', theme);
 }
 
 function toggleTheme() {
-  const current = root.getAttribute('data-theme') || 'auto';
-  const next = current === 'dark' ? 'auto' : current === 'auto' ? 'light' : 'dark';
+  const current = root.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
   localStorage.setItem(THEME_KEY, next);
   applyTheme(next);
   if (themeToggle) themeToggle.textContent = next === 'dark' ? '🌞' : '🌙';
@@ -106,8 +97,8 @@ if (canvas instanceof HTMLCanvasElement) {
   let PARTICLE_COUNT = getParticleCount();
 
   function themeColors() {
-    const isDark = (document.documentElement.getAttribute('data-theme') === 'dark') ||
-      (document.documentElement.getAttribute('data-theme') === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                  !document.documentElement.getAttribute('data-theme');
     return isDark
       ? {
           gradient1: 'rgba(91,156,255,0.15)',
@@ -321,3 +312,57 @@ if (canvas instanceof HTMLCanvasElement) {
 
   canvasObserver.observe(canvas);
 }
+
+// Enhanced Skills Section Animation
+document.addEventListener('DOMContentLoaded', function() {
+  const skillItems = document.querySelectorAll('.skill-item');
+  const levelBars = document.querySelectorAll('.level-bar');
+  
+  // Set CSS custom properties for level bars
+  levelBars.forEach(bar => {
+    const level = bar.getAttribute('data-level');
+    if (level) {
+      bar.style.setProperty('--level', level + '%');
+    }
+  });
+
+  // Intersection Observer for skills animation
+  const skillsObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        // Stagger the animation
+        setTimeout(() => {
+          entry.target.classList.add('animate');
+        }, index * 100);
+      }
+    });
+  }, { 
+    threshold: 0.3,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  skillItems.forEach(item => {
+    skillsObserver.observe(item);
+  });
+
+  // Add hover sound effect simulation (visual feedback)
+  skillItems.forEach(item => {
+    item.addEventListener('mouseenter', function() {
+      const icon = this.querySelector('.skill-icon');
+      icon.style.transform = 'scale(1.15) rotate(5deg)';
+    });
+    
+    item.addEventListener('mouseleave', function() {
+      const icon = this.querySelector('.skill-icon');
+      icon.style.transform = '';
+    });
+  });
+});
+
+// Update year in footer
+document.addEventListener('DOMContentLoaded', function() {
+  const yearElement = document.getElementById('year');
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
+  }
+});
