@@ -1,4 +1,57 @@
+/* Default light theme variables */
+/* ===================================
+   FRESH CLEAN THEME SYSTEM
+   =================================== */
+
+/* Default: Light theme (system light or no data-theme) */
 :root {
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --brand: #2563eb;
+  --brand-600: #1d4ed8;
+  --accent: #0284c7;
+  --accent-hover: #0369a1;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* System dark theme - only when no manual override */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --bg: #111111;
+    --text: #ffffff;
+    --muted: #9ca3af;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --brand: #3b82f6;
+    --brand-600: #2563eb;
+    --accent: #0ea5e9;
+    --accent-hover: #0284c7;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* Manual light theme override */
+html[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --brand: #2563eb;
+  --brand-600: #1d4ed8;
+  --accent: #0284c7;
+  --accent-hover: #0369a1;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Manual dark theme override */
+html[data-theme="dark"] {
   --bg: #111111;
   --text: #ffffff;
   --muted: #9ca3af;
@@ -12,11 +65,8 @@
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-
-
-
-
-html[data-theme="light"]:root {
+/* Explicit light theme */
+html[data-theme="light"] {
   --bg: #ffffff;
   --text: #111827;
   --muted: #6b7280;
@@ -30,24 +80,24 @@ html[data-theme="light"]:root {
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-html[data-theme="dark"]/* Default theme - follows system preference */
-:root {
-  --bg: #ffffff;
-  --text: #111827;
-  --muted: #6b7280;
-  --card: #ffffff;
-  --border: #e5e7eb;
-  --brand: #2563eb;
-  --brand-600: #1d4ed8;
-  --accent: #0284c7;
-  --accent-hover: #0369a1;
+/* Explicit dark theme */
+html[data-theme="dark"] {
+  --bg: #111111;
+  --text: #ffffff;
+  --muted: #9ca3af;
+  --card: #1a1a1a;
+  --border: #2a2a2a;
+  --brand: #3b82f6;
+  --brand-600: #2563eb;
+  --accent: #0ea5e9;
+  --accent-hover: #0284c7;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 20px 25px -5p rgba(0, 0, 0, 0.1), 0 10px 10px -5p rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* System dark mode preference */
+/* System dark mode preference - only applies when no data-theme is set */
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:not([data-theme]) {
     --bg: #111111;
     --text: #ffffff;
     --muted: #9ca3af;
@@ -58,8 +108,13 @@ html[data-theme="dark"]/* Default theme - follows system preference */
     --accent: #0ea5e9;
     --accent-hover: #0284c7;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 20px 25px -5p rgba(0, 0, 0, 0.1), 0 10px 10px -5p rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
+}
+
+/* Ensure smooth theme transitions */
+.site-header {
+  transition: all 0.2s ease;
 }
 
 * { box-sizing: border-box; }
@@ -161,16 +216,29 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--border);
 }
 
-/* Light theme header */
-html[data-theme="light"] .site-header {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-  border-bottom: 1px solid #cbd5e1 !important;
+/* Header theme styles */
+.site-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-bottom: 1px solid #cbd5e1;
 }
 
-/* Override for dark theme */
+/* Dark header (system dark or manual dark) */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) .site-header {
+    background: #0a0a0a;
+    border-bottom: 1px solid #333;
+  }
+}
+
 html[data-theme="dark"] .site-header {
-  background: #0a0a0a !important;
-  border-bottom: 1px solid #333 !important;
+  background: #0a0a0a;
+  border-bottom: 1px solid #333;
+}
+
+/* Ensure light header for manual light theme */
+html[data-theme="light"] .site-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-bottom: 1px solid #cbd5e1;
 }
 
 .theme-toggle,
@@ -327,13 +395,6 @@ html[data-theme="dark"] .theme-toggle,
 html[data-theme="dark"] .nav-toggle {
   color: #ffffff !important;
 }
-
-html[data-theme="dark"] .site-header {
-  background: #0a0a0a !important;
-  border-bottom: 1px solid #1f2937 !important;
-}
-
-
 
 /* Ensure nav-toggle (hamburger menu) is always visible */
 .nav-toggle {
@@ -784,6 +845,30 @@ a.resume-link:hover::before {
 
 /* Mobile styles */
 @media (max-width: 640px) {
+  
+  /* Ensure full width on mobile */
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  * {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  
+  .container {
+    max-width: 100%;
+    padding: 0 16px;
+    margin: 0;
+  }
+  
+  /* Ensure all sections are full width */
+  section, .hero, .skills-wrapper, .projects-grid {
+    width: 100%;
+    max-width: 100%;
+  }
 
   .nav-toggle { display: inline-flex; }
   .nav-menu { 
@@ -804,6 +889,8 @@ a.resume-link:hover::before {
   .site-header { 
     padding: 8px 16px; 
     position: sticky;
+    width: 100%;
+    max-width: 100%;
   }
   .logo { font-size: 18px; }
   
@@ -811,12 +898,16 @@ a.resume-link:hover::before {
   main { 
     padding: 16px 12px 32px; 
     max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
   
 
   .hero { 
     padding: 20px 0; 
     gap: 24px;
+    width: 100%;
+    max-width: 100%;
   }
   .hero h1 { 
     font-size: 28px; 

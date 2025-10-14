@@ -23,64 +23,99 @@ document.addEventListener('click', (e) => {
     }
   }
 });
+// ===================================
+// FRESH THEME SYSTEM WITH SYSTEM INTEGRATION
+// ===================================
+
 const themeToggle = document.getElementById('theme-toggle');
 const root = document.documentElement;
-const THEME_KEY = 'theme-preference';
 
+// Simple system theme detection
 function getSystemTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-function getPreferredTheme() {
-  const stored = localStorage.getItem(THEME_KEY);
-  if (stored === 'light' || stored === 'dark') return stored;
-  // If no preference stored, follow system theme
-  return getSystemTheme();
+// Get current theme (either stored preference or system theme)
+function getCurrentTheme() {
+  const stored = localStorage.getItem('theme');
+  if (stored === 'light' || stored === 'dark') {
+    return { theme: stored, isSystem: false };
+  }
+  return { theme: getSystemTheme(), isSystem: true };
 }
 
-function applyTheme(theme) {
-  root.setAttribute('data-theme', theme);
+// Apply theme to the page
+function applyTheme(theme, isSystem = false) {
+  // For system theme: no data-theme attribute (let CSS media queries work)
+  // For manual theme: set data-theme attribute
+  if (isSystem) {
+    root.removeAttribute('data-theme');
+  } else {
+    root.setAttribute('data-theme', theme);
+  }
+  
+  // Update button
   if (themeToggle) {
-    const isFollowingSystem = !localStorage.getItem(THEME_KEY);
     themeToggle.textContent = theme === 'dark' ? '🌞' : '🌙';
-    themeToggle.title = isFollowingSystem ? 
-      `Currently following system theme (${theme}). Click to override.` : 
-      `Theme set to ${theme}. Click to toggle.`;
+    themeToggle.setAttribute('aria-label', 
+      isSystem ? `System theme (${theme})` : `${theme} theme`
+    );
   }
 }
 
+// Toggle between themes: system → light → dark → system
 function toggleTheme() {
-  const current = root.getAttribute('data-theme') || getSystemTheme();
-  const next = current === 'dark' ? 'light' : 'dark';
-  localStorage.setItem(THEME_KEY, next);
-  applyTheme(next);
-}
-
-function resetToSystemTheme() {
-  localStorage.removeItem(THEME_KEY);
-  applyTheme(getSystemTheme());
+  const { theme, isSystem } = getCurrentTheme();
+  
+  if (isSystem) {
+    // Currently system → switch to opposite of current system theme
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    applyTheme(newTheme, false);
+  } else if (theme === 'light') {
+    // Light → Dark
+    localStorage.setItem('theme', 'dark');
+    applyTheme('dark', false);
+  } else {
+    // Dark → Back to system
+    localStorage.removeItem('theme');
+    applyTheme(getSystemTheme(), true);
+  }
 }
 
 // Listen for system theme changes
-const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-function handleSystemThemeChange(e) {
-  // Only follow system theme if user hasn't set a manual preference
-  if (!localStorage.getItem(THEME_KEY)) {
-    applyTheme(e.matches ? 'dark' : 'light');
+function handleSystemThemeChange() {
+  const { isSystem } = getCurrentTheme();
+  if (isSystem) {
+    // Only update if following system theme
+    applyTheme(getSystemTheme(), true);
   }
 }
 
-// Use addEventListener for modern browsers, fallback to addListener for older ones
-if (mediaQuery.addEventListener) {
-  mediaQuery.addEventListener('change', handleSystemThemeChange);
-} else {
-  mediaQuery.addListener(handleSystemThemeChange);
+// Initialize theme system
+function initTheme() {
+  const { theme, isSystem } = getCurrentTheme();
+  applyTheme(theme, isSystem);
+  
+  // Set up theme toggle
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+  }
+  
+  // Listen for system theme changes
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  if (mediaQuery.addEventListener) {
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
+  } else if (mediaQuery.addListener) {
+    mediaQuery.addListener(handleSystemThemeChange);
+  }
 }
 
-// Initialize theme
-applyTheme(getPreferredTheme());
-if (themeToggle) {
-  themeToggle.addEventListener('click', toggleTheme);
+// Initialize immediately
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTheme);
+} else {
+  initTheme();
 }
 
 // Footer year
