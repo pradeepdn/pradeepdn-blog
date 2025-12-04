@@ -53,11 +53,11 @@ function applyTheme(theme, isSystem = false) {
   } else {
     root.setAttribute('data-theme', theme);
   }
-  
+
   // Update button
   if (themeToggle) {
     themeToggle.textContent = theme === 'dark' ? '🌞' : '🌙';
-    themeToggle.setAttribute('aria-label', 
+    themeToggle.setAttribute('aria-label',
       isSystem ? `System theme (${theme})` : `${theme} theme`
     );
   }
@@ -66,7 +66,7 @@ function applyTheme(theme, isSystem = false) {
 // Toggle between themes: system → light → dark → system
 function toggleTheme() {
   const { theme, isSystem } = getCurrentTheme();
-  
+
   if (isSystem) {
     // Currently system → switch to opposite of current system theme
     const newTheme = theme === 'dark' ? 'light' : 'dark';
@@ -96,12 +96,12 @@ function handleSystemThemeChange() {
 function initTheme() {
   const { theme, isSystem } = getCurrentTheme();
   applyTheme(theme, isSystem);
-  
+
   // Set up theme toggle
   if (themeToggle) {
     themeToggle.addEventListener('click', toggleTheme);
   }
-  
+
   // Listen for system theme changes
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   if (mediaQuery.addEventListener) {
@@ -117,10 +117,6 @@ if (document.readyState === 'loading') {
 } else {
   initTheme();
 }
-
-// Footer year
-const yearEl = document.getElementById('year');
-if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
 // Scroll animation for cards
 const observerOptions = {
@@ -164,25 +160,25 @@ if (canvas instanceof HTMLCanvasElement) {
   let PARTICLE_COUNT = getParticleCount();
 
   function themeColors() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
-                  !document.documentElement.getAttribute('data-theme');
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+      !document.documentElement.getAttribute('data-theme');
     return isDark
       ? {
-          gradient1: 'rgba(91,156,255,0.15)',
-          gradient2: 'rgba(139,92,246,0.1)',
-          gradient3: 'rgba(34,197,94,0.08)',
-          accent: 'rgba(91,156,255,0.05)',
-          particle: 'rgba(91,156,255,0.4)',
-          particleGlow: 'rgba(91,156,255,0.15)'
-        }
+        gradient1: 'rgba(91,156,255,0.15)',
+        gradient2: 'rgba(139,92,246,0.1)',
+        gradient3: 'rgba(34,197,94,0.08)',
+        accent: 'rgba(91,156,255,0.05)',
+        particle: 'rgba(91,156,255,0.4)',
+        particleGlow: 'rgba(91,156,255,0.15)'
+      }
       : {
-          gradient1: 'rgba(37,99,235,0.12)',
-          gradient2: 'rgba(147,51,234,0.08)',
-          gradient3: 'rgba(16,185,129,0.06)',
-          accent: 'rgba(37,99,235,0.04)',
-          particle: 'rgba(37,99,235,0.5)',
-          particleGlow: 'rgba(37,99,235,0.2)'
-        };
+        gradient1: 'rgba(37,99,235,0.12)',
+        gradient2: 'rgba(147,51,234,0.08)',
+        gradient3: 'rgba(16,185,129,0.06)',
+        accent: 'rgba(37,99,235,0.04)',
+        particle: 'rgba(37,99,235,0.5)',
+        particleGlow: 'rgba(37,99,235,0.2)'
+      };
   }
 
   function resize() {
@@ -198,7 +194,7 @@ if (canvas instanceof HTMLCanvasElement) {
     // Reinitialize particles on resize
     initParticles();
   }
-  
+
   function initParticles() {
     particles = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -213,14 +209,14 @@ if (canvas instanceof HTMLCanvasElement) {
       });
     }
   }
-  
+
   resize();
   window.addEventListener('resize', resize);
 
   function drawFlowingGradient() {
     const colors = themeColors();
     const t = time * 0.001;
-    
+
     // Create flowing radial gradients
     const gradient1 = ctx.createRadialGradient(
       width * 0.3 + Math.sin(t) * 50,
@@ -258,10 +254,10 @@ if (canvas instanceof HTMLCanvasElement) {
     // Draw gradients
     ctx.fillStyle = gradient1;
     ctx.fillRect(0, 0, width, height);
-    
+
     ctx.fillStyle = gradient2;
     ctx.fillRect(0, 0, width, height);
-    
+
     ctx.fillStyle = gradient3;
     ctx.fillRect(0, 0, width, height);
 
@@ -272,7 +268,7 @@ if (canvas instanceof HTMLCanvasElement) {
       const y = height * (0.2 + i * 0.3) + Math.sin(t * 0.2 + i) * 20;
       const startX = Math.sin(t * 0.1 + i) * width * 0.1;
       const endX = width + Math.sin(t * 0.1 + i) * width * 0.1;
-      
+
       ctx.beginPath();
       ctx.moveTo(startX, y);
       ctx.lineTo(endX, y);
@@ -286,32 +282,32 @@ if (canvas instanceof HTMLCanvasElement) {
       // Update position
       particle.x += particle.vx;
       particle.y += particle.vy;
-      
+
       // Add subtle wave motion
       particle.vx += Math.sin(t * 0.5 + particle.pulse) * 0.001;
       particle.vy += Math.cos(t * 0.3 + particle.pulse) * 0.001;
-      
+
       // Wrap around screen
       if (particle.x < -10) particle.x = width + 10;
       if (particle.x > width + 10) particle.x = -10;
       if (particle.y < -10) particle.y = height + 10;
       if (particle.y > height + 10) particle.y = -10;
-      
+
       // Apply friction
       particle.vx *= 0.998;
       particle.vy *= 0.998;
-      
+
       // Update pulse for twinkling effect
       particle.pulse += 0.02;
     });
   }
-  
+
   function drawParticles() {
     const colors = themeColors();
     particles.forEach(particle => {
       const alpha = particle.opacity + Math.sin(particle.pulse) * 0.2;
       const size = particle.size + Math.sin(particle.pulse * 0.7) * 0.3;
-      
+
       // Draw glow
       const gradient = ctx.createRadialGradient(
         particle.x, particle.y, 0,
@@ -319,7 +315,7 @@ if (canvas instanceof HTMLCanvasElement) {
       );
       gradient.addColorStop(0, colors.particleGlow);
       gradient.addColorStop(1, 'transparent');
-      
+
       ctx.fillStyle = gradient;
       ctx.fillRect(
         particle.x - size * 3,
@@ -327,7 +323,7 @@ if (canvas instanceof HTMLCanvasElement) {
         size * 6,
         size * 6
       );
-      
+
       // Draw particle
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, size, 0, Math.PI * 2);
@@ -381,10 +377,10 @@ if (canvas instanceof HTMLCanvasElement) {
 }
 
 // Enhanced Skills Section Animation
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const skillItems = document.querySelectorAll('.skill-item');
   const levelBars = document.querySelectorAll('.level-bar');
-  
+
   // Set CSS custom properties for level bars
   levelBars.forEach(bar => {
     const level = bar.getAttribute('data-level');
@@ -403,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
       }
     });
-  }, { 
+  }, {
     threshold: 0.3,
     rootMargin: '0px 0px -50px 0px'
   });
@@ -414,12 +410,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Add hover sound effect simulation (visual feedback)
   skillItems.forEach(item => {
-    item.addEventListener('mouseenter', function() {
+    item.addEventListener('mouseenter', function () {
       const icon = this.querySelector('.skill-icon');
       icon.style.transform = 'scale(1.15) rotate(5deg)';
     });
-    
-    item.addEventListener('mouseleave', function() {
+
+    item.addEventListener('mouseleave', function () {
       const icon = this.querySelector('.skill-icon');
       icon.style.transform = '';
     });
@@ -427,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Update year in footer
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const yearElement = document.getElementById('year');
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
