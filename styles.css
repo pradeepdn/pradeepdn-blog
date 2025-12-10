@@ -73,23 +73,7 @@ html[data-theme="dark"] {
   color-scheme: dark;
 }
 
-/* Skip to content link for accessibility */
-.skip-to-content {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--brand);
-  color: white;
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 0 0 8px 0;
-  z-index: 100;
-  font-weight: 600;
-}
 
-.skip-to-content:focus {
-  top: 0;
-}
 
 /* Improved focus styles for keyboard navigation */
 a:focus-visible,
@@ -233,27 +217,29 @@ img {
 
 /* Header theme styles */
 .site-header {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-bottom: 1px solid #cbd5e1;
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Dark header (system dark or manual dark) */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) .site-header {
-    background: #0a0a0a;
-    border-bottom: 1px solid #333;
+    background: transparent;
+    border-bottom: none;
   }
 }
 
 html[data-theme="dark"] .site-header {
-  background: #0a0a0a;
-  border-bottom: 1px solid #333;
+  background: transparent;
+  border-bottom: none;
 }
 
 /* Ensure light header for manual light theme */
 html[data-theme="light"] .site-header {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-bottom: 1px solid #cbd5e1;
+  background: transparent;
+  border-bottom: none;
 }
 
 .theme-toggle,
@@ -533,6 +519,10 @@ main {
 
 .contact-list a[href*="github"]:before {
   content: "🔗";
+}
+
+.contact-list a[href*="leetcode"]:before {
+  content: "💻";
 }
 
 .btn {
